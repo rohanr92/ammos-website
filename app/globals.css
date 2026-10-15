@@ -787,3 +787,15 @@ input[type="date"].input, input[type="time"].input { color-scheme: dark; }
 }
 /* let the overlay cards' shadow show */
 .events-track:has(.event-ov) { padding-bottom: 36px; margin-bottom: -20px; }
+
+/* ════════════ UPDATE 12 — mobile tidy-ups ════════════ */
+.gallery-mobile-cta { display: none; }
+@media (max-width: 900px) {
+  /* white sticky bar: logo + menu only (the Reserve button is in the menu) */
+  .sticky-inner .btn-reserve { display: none; }
+  /* homepage gallery: title above the photos, button below */
+  .gallery-center .btn { display: none; }
+  .gallery-center { padding-bottom: 20px; }
+  .gallery-mobile-cta { display: flex; justify-content: center; margin-top: 32px; padding: 0 var(--gutter); }
+  .gallery-grid-home { max-width: calc(100% - 2 * var(--gutter)); box-sizing: border-box; }
+}

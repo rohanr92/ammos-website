@@ -440,6 +440,12 @@ export default async function HomePage() {
             </a>
           </div>
         </div>
+        {/* on phones the button sits under the photos */}
+        <div className="gallery-mobile-cta">
+          <a href={settings.reservationUrl} target="_blank" rel="noopener noreferrer" className="btn btn-brand">
+            {galCopy.buttonLabel}
+          </a>
+        </div>
       </section>
 
       {/* ═════ CONTACT ═════ */}
