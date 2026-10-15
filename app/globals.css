@@ -799,3 +799,17 @@ input[type="date"].input, input[type="time"].input { color-scheme: dark; }
   .gallery-mobile-cta { display: flex; justify-content: center; margin-top: 32px; padding: 0 var(--gutter); }
   .gallery-grid-home { max-width: calc(100% - 2 * var(--gutter)); box-sizing: border-box; }
 }
+/* phones: button pairs stay side by side (hero, chefs, story…) */
+@media (max-width: 600px) {
+  .btn-row { flex-wrap: nowrap; gap: 10px; }
+  .btn-row > .btn { flex: 1 1 0; min-width: 0; justify-content: center; text-align: center; padding: 14px 10px; font-size: 11px; letter-spacing: 0.1em; white-space: nowrap; }
+  .btn-row > :not(.btn) { flex: none; }
+}
+@media (max-width: 340px) {
+  .btn-row { flex-wrap: wrap; }
+  .btn-row > .btn { flex: 1 1 100%; }
+}
+@media (max-width: 600px) {
+  .gallery-home .btn-row { flex-wrap: wrap; }
+  .gallery-home .btn-row > .btn { flex: 0 0 auto; padding: 12px 18px; }
+}
