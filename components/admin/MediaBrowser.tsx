@@ -26,7 +26,8 @@ export function formatBytes(n: number) {
 /** Small preview: optimised thumbnail for images, first frame for videos. */
 export function MediaThumb({ file }: { file: Pick<MediaFile, "url" | "kind" | "name"> }) {
   if (file.kind === "video") return <video src={`${file.url}#t=0.5`} muted playsInline preload="metadata" />;
-  const thumb = /\.svg$/i.test(file.url) ? file.url : `/_next/image?url=${encodeURIComponent(file.url)}&w=384&q=75`;
+  // built-in images get a small optimised thumbnail; uploads are already optimised
+  const thumb = /\.svg$/i.test(file.url) || file.url.startsWith("/uploads/") ? file.url : `/_next/image?url=${encodeURIComponent(file.url)}&w=384&q=75`;
   // eslint-disable-next-line @next/next/no-img-element
   return <img src={thumb} alt={file.name} loading="lazy" decoding="async" />;
 }

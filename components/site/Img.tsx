@@ -28,5 +28,7 @@ export function Img({
     // eslint-disable-next-line @next/next/no-img-element
     return <img src={src} alt={alt} className={`fill-img ${className}`} loading={preload ? "eager" : "lazy"} decoding="async" style={style} />;
   }
-  return <Image src={src} alt={alt} fill sizes={sizes} quality={quality} className={`cover ${className}`} preload={preload} style={style} />;
+  // files uploaded in the admin are already resized & compressed when uploaded → serve them as they are
+  const unoptimized = src.startsWith("/uploads/");
+  return <Image src={src} alt={alt} fill sizes={sizes} quality={quality} unoptimized={unoptimized} className={`cover ${className}`} preload={preload} style={style} />;
 }

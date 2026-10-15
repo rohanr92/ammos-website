@@ -79,7 +79,7 @@ export function GalleryMasonry({ photos }: { photos: Photo[] }) {
               // eslint-disable-next-line @next/next/no-img-element
               <img src={p.image} alt={p.alt} loading="lazy" />
             ) : (
-              <Image src={p.image} alt={p.alt} width={600} height={600} sizes="(max-width: 600px) 50vw, 25vw" style={{ height: "auto" }} />
+              <Image src={p.image} alt={p.alt} width={600} height={600} sizes="(max-width: 600px) 50vw, 25vw" unoptimized={p.image.startsWith("/uploads/")} loading="lazy" style={{ height: "auto" }} />
             )}
             {p.video && (
               <span className="play-badge" aria-hidden="true">

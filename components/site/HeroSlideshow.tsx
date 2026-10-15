@@ -25,7 +25,7 @@ export function HeroSlideshow({ slides, interval = 6500 }: { slides: Slide[]; in
             // eslint-disable-next-line @next/next/no-img-element
             <img src={s.image} alt="" className="fill-img" style={{ objectPosition: s.position || "center" }} />
           ) : (
-            <Image src={s.image} alt="" fill sizes="100vw" quality={85} preload={i === 0} className="cover" style={{ objectPosition: s.position || "center" }} />
+            <Image src={s.image} alt="" fill sizes="100vw" quality={85} preload={i === 0} unoptimized={s.image.startsWith("/uploads/")} className="cover" style={{ objectPosition: s.position || "center" }} />
           )}
         </div>
       ))}
