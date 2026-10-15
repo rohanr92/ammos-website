@@ -125,7 +125,9 @@ else
 fi
 
 step "9/9  Nightly backups (database + photos, kept 14 days)"
-( crontab -l 2>/dev/null | grep -v 'deploy/backup.sh' ; echo "30 3 * * * bash ${APP_DIR}/deploy/backup.sh >> /var/log/ammos-backup.log 2>&1" ) | crontab -
+CRON_LINE="30 3 * * * bash ${APP_DIR}/deploy/backup.sh >> /var/log/ammos-backup.log 2>&1"
+{ crontab -l 2>/dev/null | grep -v 'deploy/backup.sh' || true; echo "$CRON_LINE"; } | crontab -
+echo "  ✔ backups run every night at 03:30 → /var/backups/ammos"
 
 echo ""
 echo "════════════════════════════════════════════════════════════════"
