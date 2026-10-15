@@ -54,6 +54,14 @@ const NAV_FIELDS: FieldDef[] = [
   { name: "hidden", label: "Hide this link", type: "checkbox" },
 ];
 
+export const MENU_STYLE_OPTIONS = [
+  { value: "classic", label: "Classic — big numbered links + info column (dark)" },
+  { value: "photo", label: "Photo — big photo that changes with each link" },
+  { value: "centered", label: "Centered — elegant centred links + quick buttons" },
+  { value: "tiles", label: "Tiles — photo tiles for each page" },
+  { value: "daylight", label: "Daylight — light sand colours, list with arrows" },
+];
+
 const KICKER_HELP = "Small coloured line above the title";
 const TITLE_HELP = "Use a new line to break the title onto two lines";
 
@@ -144,6 +152,20 @@ export const SECTIONS: SectionDef[] = [
       t("headerRightLabel", "Header — link on the right (text)", "e.g. Contact us"),
       { name: "headerRightUrl", label: "Header — link on the right (link)", type: "url" },
       t("reserveLabel", "“Reserve” button text (white bar)", "The button opens the table reservation link from Business details"),
+      {
+        name: "menuStyleMobile",
+        label: "Full-screen menu design — MOBILE (phones & small tablets)",
+        type: "select",
+        options: MENU_STYLE_OPTIONS,
+        help: "The look of the menu that opens with the ☰ button on phones. Open the website on your phone to see it.",
+      },
+      {
+        name: "menuStyleDesktop",
+        label: "Full-screen menu design — DESKTOP (laptops & big screens)",
+        type: "select",
+        options: MENU_STYLE_OPTIONS,
+        help: "The look of the same menu on computers. Mobile and desktop can use different designs.",
+      },
       { name: "menuLinks", label: "Full-screen menu — big links", type: "list", itemLabel: "Link", help: "The menu that opens with the ☰ button.", fields: NAV_FIELDS },
       { name: "menuBottomLinks", label: "Full-screen menu — small links at the bottom", type: "list", itemLabel: "Link", fields: NAV_FIELDS },
       { name: "footerCol1", label: "Footer — column 1", type: "list", itemLabel: "Link", fields: NAV_FIELDS },
@@ -160,6 +182,8 @@ export const SECTIONS: SectionDef[] = [
       headerRightLabel: "Contact us",
       headerRightUrl: "/contact",
       reserveLabel: "Reserve",
+      menuStyleMobile: "classic",
+      menuStyleDesktop: "classic",
       menuLinks: [
         { label: "Welcome", url: "/" },
         { label: "Events", url: "/events" },

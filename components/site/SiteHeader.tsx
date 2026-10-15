@@ -4,18 +4,40 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import type { Navigation } from "@/lib/nav";
+import { Icon } from "@/components/site/Icon";
 import { NavItem } from "@/components/site/NavItem";
 import type { Settings } from "@/lib/content-schema";
 
 type HeaderSettings = Pick<
   Settings,
-  "reservationUrl" | "phone" | "email" | "address" | "city" | "hoursNote" | "facebook" | "instagram" | "tiktok" | "youtube"
+  "reservationUrl" | "mapQuery" | "phone" | "email" | "address" | "city" | "hoursNote" | "facebook" | "instagram" | "tiktok" | "youtube"
 >;
+
+/** Photo used for each full-screen-menu link (Photo + Tiles designs), picked from the link address. */
+const LINK_PHOTOS: [RegExp, string][] = [
+  [/private/i, "private-dinner"],
+  [/calendar/i, "event-dj-crowd"],
+  [/event/i, "event-night-party"],
+  [/cocktail|drink/i, "cocktail-passion"],
+  [/menu|food|brunch/i, "dish-rainbow-roll"],
+  [/story|about/i, "story-2026-terrace"],
+  [/gallery/i, "fan-sunset"],
+  [/news|blog/i, "beach-club"],
+  [/contact/i, "hero-dining-sea"],
+  [/^\/$/, "hero-sunset"],
+];
+const FALLBACK_PHOTOS = ["hero-terrace-night", "fan-aperol", "event-sunset", "fan-interior", "hero-sashimi", "live-dj"];
+function linkPhoto(url: string, i: number) {
+  const hit = LINK_PHOTOS.find(([re]) => re.test(url));
+  return `/images/ig/${hit ? hit[1] : FALLBACK_PHOTOS[i % FALLBACK_PHOTOS.length]}.webp`;
+}
 
 export function SiteHeader({ settings, socials, nav }: { settings: HeaderSettings; socials: React.ReactNode; nav: Navigation }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [stuck, setStuck] = useState(false);
+  const [hovered, setHovered] = useState<number | null>(null);
+  const [auto, setAuto] = useState(0);
   const closeRef = useRef<HTMLButtonElement>(null);
   const lastFocus = useRef<HTMLElement | null>(null);
 
@@ -48,8 +70,23 @@ export function SiteHeader({ settings, socials, nav }: { settings: HeaderSetting
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
+  // Photo design: slowly cycle the photos while the menu is open (a hovered link wins)
+  useEffect(() => {
+    if (!open) {
+      setHovered(null);
+      return;
+    }
+    const n = Math.max(nav.menuLinks.length, 1);
+    const id = setInterval(() => setAuto((a) => (a + 1) % n), 3800);
+    return () => clearInterval(id);
+  }, [open, nav.menuLinks.length]);
+
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`));
   const reserve = settings.reservationUrl;
+  const photos = nav.menuLinks.map((l, i) => linkPhoto(l.url, i));
+  const shown = hovered ?? auto;
+  const directions = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(settings.mapQuery || `${settings.address}, ${settings.city}`)}`;
+  const styleClass = `m-${nav.menuStyleMobile} d-${nav.menuStyleDesktop}`;
 
   return (
     <>
@@ -97,24 +134,61 @@ export function SiteHeader({ settings, socials, nav }: { settings: HeaderSetting
         </div>
       </div>
 
-      <div id="site-menu" className={`menu-overlay${open ? " is-open" : ""}`} role="dialog" aria-modal="true" aria-label="Site menu" aria-hidden={!open} inert={!open}>
+      <div id="site-menu" className={`menu-overlay ${styleClass}${open ? " is-open" : ""}`} role="dialog" aria-modal="true" aria-label="Site menu" aria-hidden={!open} inert={!open}>
+        {/* big photo (Photo design) — images only load when that design is in use */}
+        <div className="menu-photo" aria-hidden="true">
+          {photos.map((src, i) => (
+            <span key={`${src}-${i}`} className={i === shown ? "is-on" : undefined} style={{ "--img": `url(${src})` } as React.CSSProperties} />
+          ))}
+        </div>
         <div className="menu-top">
-          <Link href="/" aria-label="Home">
+          <Link href="/" aria-label="Home" className="menu-logo">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/logo.svg" alt="ammos" width={200} height={52} />
+            <img className="logo-on-dark" src="/images/logo.svg" alt="ammos" width={200} height={52} />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className="logo-on-light" src="/images/logo-dark.svg" alt="" width={200} height={52} />
           </Link>
           <button ref={closeRef} className="menu-close" aria-label="Close menu" onClick={() => setOpen(false)}>
             ×
           </button>
         </div>
         <div className="menu-body">
-          <ul className="menu-links">
+          <ul className="menu-links" onMouseLeave={() => setHovered(null)}>
             {nav.menuLinks.map((l, i) => (
               <li key={`${l.url}-${i}`}>
-                <NavItem link={l} current={isActive(l.url)} style={{ transitionDelay: open ? `${0.05 + i * 0.04}s` : "0s" }} />
+                <NavItem
+                  link={l}
+                  current={isActive(l.url)}
+                  onMouseEnter={() => setHovered(i)}
+                  onFocus={() => setHovered(i)}
+                  style={{ transitionDelay: open ? `${0.05 + i * 0.04}s` : "0s", "--img": `url(${photos[i]})` } as React.CSSProperties}
+                >
+                  <span className="ml-label">{l.label}</span>
+                  <span className="ml-arrow" aria-hidden="true">
+                    →
+                  </span>
+                </NavItem>
               </li>
             ))}
           </ul>
+          {/* quick buttons (Centered design, and Photo / Tiles on phones) */}
+          <div className="menu-extra">
+            <div className="menu-quick">
+              <a href={reserve} target="_blank" rel="noopener noreferrer" className="primary">
+                <Icon name="calendar" size={18} /> {nav.reserveLabel === "Reserve" ? "Book a table" : nav.reserveLabel}
+              </a>
+              <a href={`tel:${settings.phone.replace(/\s/g, "")}`}>
+                <Icon name="phone" size={18} /> Call
+              </a>
+              <a href={directions} target="_blank" rel="noopener noreferrer">
+                <Icon name="pin" size={18} /> Directions
+              </a>
+            </div>
+            <p className="menu-extra-note">
+              {settings.address}, {settings.city} · {settings.hoursNote}
+            </p>
+            {socials}
+          </div>
           <aside className="menu-aside">
             <div>
               <h3>Book a table</h3>

@@ -3,7 +3,7 @@ import { cache } from "react";
 import { eq } from "drizzle-orm";
 import { db, schema } from "@/lib/db";
 import { SECTION_MAP, type Settings } from "@/lib/content-schema";
-import { visibleLinks, type Navigation } from "@/lib/nav";
+import { menuStyle, visibleLinks, type Navigation } from "@/lib/nav";
 
 /**
  * Loads one editable section: the saved values from the database
@@ -44,6 +44,8 @@ export async function getNavigation(): Promise<Navigation> {
     headerRightLabel: String(n.headerRightLabel || ""),
     headerRightUrl: String(n.headerRightUrl || ""),
     reserveLabel: String(n.reserveLabel || "Reserve"),
+    menuStyleMobile: menuStyle(n.menuStyleMobile),
+    menuStyleDesktop: menuStyle(n.menuStyleDesktop),
     menuLinks: visibleLinks(n.menuLinks),
     menuBottomLinks: visibleLinks(n.menuBottomLinks),
     footerColumns: [visibleLinks(n.footerCol1), visibleLinks(n.footerCol2), visibleLinks(n.footerCol3)].filter((c) => c.length > 0),

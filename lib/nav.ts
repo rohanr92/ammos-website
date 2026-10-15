@@ -5,11 +5,20 @@
  */
 export type NavLink = { label: string; url: string; newTab?: boolean; hidden?: boolean };
 
+export const MENU_STYLES = ["classic", "photo", "centered", "tiles", "daylight"] as const;
+export type MenuStyle = (typeof MENU_STYLES)[number];
+export function menuStyle(v: unknown): MenuStyle {
+  return (MENU_STYLES as readonly string[]).includes(String(v)) ? (v as MenuStyle) : "classic";
+}
+
 export type Navigation = {
   headerLinks: NavLink[];
   headerRightLabel: string;
   headerRightUrl: string;
   reserveLabel: string;
+  /** full-screen menu designs (Admin → Navigation) */
+  menuStyleMobile: MenuStyle;
+  menuStyleDesktop: MenuStyle;
   menuLinks: NavLink[];
   menuBottomLinks: NavLink[];
   footerColumns: NavLink[][];
