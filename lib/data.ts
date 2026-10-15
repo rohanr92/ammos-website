@@ -13,21 +13,22 @@ export function startOfTodayCyprus() {
 
 /* ───────────── Events ───────────── */
 
+/**
+ * Homepage "our events" slider: events marked "Show on homepage" —
+ * upcoming ones first (soonest first), then the most recent past ones (with an "Event passed" tag).
+ */
 export async function getHomeEvents(limit = 8) {
   const today = startOfTodayCyprus();
-  const featured = await db
+  const base = and(eq(events.published, true), eq(events.featured, true));
+  const upcoming = await db.select().from(events).where(and(base, gte(events.startsAt, today))).orderBy(asc(events.startsAt)).limit(limit);
+  if (upcoming.length >= limit) return upcoming;
+  const past = await db
     .select()
     .from(events)
-    .where(and(eq(events.published, true), eq(events.featured, true), gte(events.startsAt, today)))
-    .orderBy(asc(events.startsAt))
-    .limit(limit);
-  if (featured.length) return featured;
-  return db
-    .select()
-    .from(events)
-    .where(and(eq(events.published, true), gte(events.startsAt, today)))
-    .orderBy(asc(events.startsAt))
-    .limit(limit);
+    .where(and(base, lt(events.startsAt, today)))
+    .orderBy(desc(events.startsAt))
+    .limit(limit - upcoming.length);
+  return [...upcoming, ...past];
 }
 
 export async function listEvents(opts: { show: "upcoming" | "past"; category?: string }) {

@@ -813,3 +813,8 @@ input[type="date"].input, input[type="time"].input { color-scheme: dark; }
   .gallery-home .btn-row { flex-wrap: wrap; }
   .gallery-home .btn-row > .btn { flex: 0 0 auto; padding: 12px 18px; }
 }
+/* event page: a single photo (often a portrait poster) keeps a portrait frame */
+.event-photos.count-1 { aspect-ratio: 4 / 5; max-width: 480px; }
+.event-photos.count-1 .event-photo img { object-position: top center; }
+/* past event without a date badge: "Event passed" tag sits top-left */
+.event-ov .past-flag-left { right: auto; left: 16px; top: 16px; }

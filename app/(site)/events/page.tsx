@@ -66,7 +66,7 @@ export default async function EventsPage({ searchParams }: { searchParams: Searc
           {events.length ? (
             <div className="events-grid">
               {events.map((e) => (
-                <EventCard key={e.id} event={e} past={show === "past"} showBadge variant={variant} />
+                <EventCard key={e.id} event={e} past={show === "past"} showBadge variant={variant} showPastDates={evCopy.showPastDates === true} />
               ))}
             </div>
           ) : (

@@ -163,7 +163,7 @@ export default async function EventPage({ params }: { params: Params }) {
             </h2>
             <div className="events-grid">
               {others.map((e) => (
-                <EventCard key={e.id} event={e} showBadge variant={evCopy.cardStyle === "editorial" ? "editorial" : "overlay"} />
+                <EventCard key={e.id} event={e} showBadge variant={evCopy.cardStyle === "editorial" ? "editorial" : "overlay"} showPastDates={evCopy.showPastDates === true} />
               ))}
             </div>
           </div>

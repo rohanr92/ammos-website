@@ -101,7 +101,7 @@ export default async function HomePage() {
                 <a href={settings.reservationUrl} target="_blank" rel="noopener noreferrer" className="btn btn-brand">
                   {hero.primaryLabel}
                 </a>
-                <Link href="/events" className="btn btn-ghost-light">
+                <Link href={hero.secondaryUrl || "/menu"} className="btn btn-ghost-light">
                   {hero.secondaryLabel}
                 </Link>
               </div>
@@ -139,7 +139,7 @@ export default async function HomePage() {
               }
             >
               {events.map((e) => (
-                <EventCard key={e.id} event={e} variant={evCopy.cardStyle === "editorial" ? "editorial" : "overlay"} />
+                <EventCard key={e.id} event={e} variant={evCopy.cardStyle === "editorial" ? "editorial" : "overlay"} showPastDates={evCopy.showPastDates === true} />
               ))}
             </HorizontalSlider>
             <div className="center-row">
