@@ -1018,3 +1018,17 @@ input[type="date"].input, input[type="time"].input { color-scheme: dark; }
   .mc-dots { display: none; }
   .mc-label { width: 100%; order: -1; }
 }
+
+/* ═══════════ Homepage menu: two photos left, text right ═══════════ */
+.menu-photos-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(48px, 7vw, 110px); align-items: center; }
+.menu-photos { position: relative; min-height: clamp(480px, 46vw, 660px); }
+.menu-photo-a { position: absolute; left: 0; top: 0; width: 64%; z-index: 1; }
+.menu-photo-b { position: absolute; right: 0; bottom: 0; width: 46%; z-index: 2; }
+.menu-photo-b .img-frame { border: 5px solid var(--bg2); box-shadow: var(--img-shadow); }
+.menu-photos .img-frame { border-radius: var(--radius-lg); }
+@media (max-width: 900px) {
+  .menu-photos-grid { grid-template-columns: 1fr; gap: 40px; }
+  .menu-photos { min-height: 0; aspect-ratio: 1 / 1.02; }
+  .menu-photo-a { width: 66%; }
+  .menu-photo-b { width: 50%; }
+}

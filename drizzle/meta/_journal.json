@@ -78,6 +78,13 @@
       "when": 1792272000000,
       "tag": "0010_menu_card_philosophy",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1792273000000,
+      "tag": "0011_menu_photos_cocktail",
+      "breakpoints": true
     }
   ]
 }

@@ -290,15 +290,31 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ═════ MENU (text + premium text-only menu card, no photos) ═════ */}
+      {/* ═════ MENU (two photos left, text right) ═════ */}
       <section id="menu" className="section section-alt" aria-labelledby="menu-title">
-        <div className="container menu-home-grid menu-feature">
-          <div className="menu-home-intro" data-reveal>
+        <div className="container menu-photos-grid">
+          <div className="menu-photos" aria-hidden={!menuCopy.image1 && !menuCopy.image2}>
+            {menuCopy.image1 && (
+              <div className="menu-photo-a" data-reveal style={{ ["--from" as string]: "translate3d(0,70px,0)" }}>
+                <div className="img-frame" style={{ aspectRatio: "4/5" }}>
+                  <Img src={menuCopy.image1} alt="A dish from the Ammos kitchen" sizes="(max-width: 900px) 62vw, 30vw" />
+                </div>
+              </div>
+            )}
+            {menuCopy.image2 && (
+              <div className="menu-photo-b" data-reveal style={{ transitionDelay: ".18s", ["--from" as string]: "translate3d(0,110px,0)" }}>
+                <div className="img-frame" style={{ aspectRatio: "4/5" }}>
+                  <Img src={menuCopy.image2} alt="Sharing plate at Ammos" sizes="(max-width: 900px) 46vw, 22vw" />
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="menu-photos-text" data-reveal style={{ transitionDelay: ".1s" }}>
             <p className="kicker">{menuCopy.kicker}</p>
             <h2 id="menu-title" className="display display-lg" style={{ marginBottom: 24 }}>
               <MultiLine text={menuCopy.title} />
             </h2>
-            <p className="lead" style={{ marginBottom: 32, maxWidth: 440 }}>
+            <p className="lead" style={{ marginBottom: 32, maxWidth: 460 }}>
               {menuCopy.text}
             </p>
             {menuUrlExternal ? (
@@ -315,33 +331,6 @@ export default async function HomePage() {
                 {menuCopy.hint}
               </p>
             )}
-          </div>
-          <div className="menu-card" data-reveal style={{ transitionDelay: ".15s" }}>
-            <div className="menu-card-inner">
-              {menuCopy.cardKicker && <p className="menu-card-kicker">{menuCopy.cardKicker}</p>}
-              {menuCopy.cardTitle && <h3 className="menu-card-title">{menuCopy.cardTitle}</h3>}
-              <span className="menu-card-orn" aria-hidden="true">
-                <i />◆<i />
-              </span>
-              <ol className="menu-card-list">
-                {(Array.isArray(menuCopy.highlights) ? (menuCopy.highlights as Record<string, string>[]) : [])
-                  .filter((h) => h?.title)
-                  .map((h, i) => (
-                    <li key={`${h.title}-${i}`}>
-                      <span className="mc-num">{String(i + 1).padStart(2, "0")}</span>
-                      <div className="mc-body">
-                        <div className="mc-head">
-                          <span className="mc-title">{h.title}</span>
-                          <span className="mc-dots" aria-hidden="true" />
-                          {h.label && <span className="mc-label">{h.label}</span>}
-                        </div>
-                        {h.text && <p>{h.text}</p>}
-                      </div>
-                    </li>
-                  ))}
-              </ol>
-              {menuCopy.cardNote && <p className="menu-card-note">{menuCopy.cardNote}</p>}
-            </div>
           </div>
         </div>
       </section>
