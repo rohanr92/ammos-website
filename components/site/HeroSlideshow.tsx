@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-type Slide = { image: string; position?: string };
+type Slide = { image: string; mobileImage?: string; position?: string };
 
 /** Full-screen hero photos that slowly zoom and cross-fade (pauses for visitors who prefer less motion). */
 export function HeroSlideshow({ slides, interval = 6500 }: { slides: Slide[]; interval?: number }) {
@@ -21,7 +21,14 @@ export function HeroSlideshow({ slides, interval = 6500 }: { slides: Slide[]; in
     <div className="hero-slides" aria-hidden="true">
       {list.map((s, i) => (
         <div key={`${s.image}-${i}`} className={`hero-slide${i === active ? " is-active" : ""}`}>
-          {/^https?:/.test(s.image) ? (
+          {s.mobileImage ? (
+            // separate portrait photo for phones (both files are already web-sized)
+            <picture>
+              <source media="(max-width: 700px)" srcSet={s.mobileImage} />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={s.image} alt="" className="fill-img" fetchPriority={i === 0 ? "high" : "auto"} style={{ objectPosition: s.position || "center" }} />
+            </picture>
+          ) : /^https?:/.test(s.image) ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={s.image} alt="" className="fill-img" style={{ objectPosition: s.position || "center" }} />
           ) : (

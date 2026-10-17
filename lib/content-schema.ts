@@ -176,7 +176,7 @@ export const SECTIONS: SectionDef[] = [
     defaults: {
       headerLinks: [
         { label: "Events", url: "/events" },
-        { label: "Menu", url: "/menu" },
+        { label: "Menu", url: "https://ammos-beach-bar.nina.cy/?step=menu", newTab: true },
         { label: "Story", url: "/our-story" },
       ],
       headerRightLabel: "Contact us",
@@ -188,7 +188,7 @@ export const SECTIONS: SectionDef[] = [
         { label: "Welcome", url: "/" },
         { label: "Events", url: "/events" },
         { label: "Events calendar", url: "/events/calendar" },
-        { label: "Our menu", url: "/menu" },
+        { label: "Our menu", url: "https://ammos-beach-bar.nina.cy/?step=menu", newTab: true },
         { label: "The Ammos story", url: "/our-story" },
         { label: "Gallery", url: "/gallery" },
         { label: "News & stories", url: "/news" },
@@ -238,7 +238,7 @@ export const SECTIONS: SectionDef[] = [
       ta("subtitle", "Subtitle"),
       t("primaryLabel", "Main button text", "Opens the table reservation link"),
       t("secondaryLabel", "Second button text"),
-      { name: "secondaryUrl", label: "Second button link", type: "url", help: "e.g. /menu, /events or a full link" },
+      { name: "secondaryUrl", label: "Second button link", type: "url", help: "e.g. /events or a full link like the online menu https://… (full links open in a new tab)" },
       ta("addressLine", "Address text (bottom right)", "New line = line break"),
       { name: "showRating", label: "Show Google rating under the buttons", type: "checkbox", help: "The rating and review count are set in Business details & SEO" },
       {
@@ -252,7 +252,7 @@ export const SECTIONS: SectionDef[] = [
         ],
         help: "Switch any time — the photos and the video are all kept.",
       },
-      { name: "slides", label: "Slideshow photos", type: "list", itemLabel: "Photo", fields: [img("image", "Photo"), t("position", "Focus point (optional)", "e.g. center 40% — which part of the photo stays visible on phones")] },
+      { name: "slides", label: "Slideshow photos", type: "list", itemLabel: "Photo", fields: [img("image", "Photo (landscape, for computers)", "Best 2560 × 1700 px (3:2), under 600 KB"), img("mobileImage", "Phone photo (portrait, optional)", "Best 1200 × 1800 px (2:3). If empty, phones show a crop of the landscape photo."), t("position", "Focus point (optional)", "e.g. center 40% — which part of the photo stays visible on phones")] },
       img("image", "Background photo", "Shown when “One photo” is selected, and while the video loads"),
       { name: "video", label: "Background video", type: "video", help: "Used when “Video” is selected. MP4, short and small (under 15 MB)." },
     ],
@@ -262,17 +262,15 @@ export const SECTIONS: SectionDef[] = [
       subtitle: "Beach bar, restaurant and late-night terrace on the Makenzy strip. Sunrise coffee to last-call cocktails.",
       primaryLabel: "Make reservation",
       secondaryLabel: "View menu",
-      secondaryUrl: "/menu",
+      secondaryUrl: "https://ammos-beach-bar.nina.cy/?step=menu",
       addressLine: "Makenzy Beach\nLarnaca, Cyprus",
       showRating: true,
       mediaType: "slideshow",
       slides: [
+        { image: "/images/ig/hero-bar.webp", mobileImage: "/images/ig/hero-bar-phone.webp", position: "center 60%" },
         { image: "/images/ig/hero-sunset.webp", position: "center 55%" },
-        { image: "/images/ig/hero-terrace-night.webp", position: "center 45%" },
-        { image: "/images/ig/hero-sashimi.webp", position: "center 60%" },
-        { image: "/images/ig/hero-dining-sea.webp", position: "70% 40%" },
       ],
-      image: "/images/ig/hero-sunset.webp",
+      image: "/images/ig/hero-bar.webp",
       video: "https://assets.mixkit.co/videos/4043/4043-720.mp4",
     },
   },
@@ -328,7 +326,7 @@ export const SECTIONS: SectionDef[] = [
         { year: "2026", title: "The full makeover", text: "New look, same beach. Still evolving, still ahead of the trends.", image: "/images/ig/story-2026-terrace.webp" },
       ],
       fan: [
-        { image: "/images/ig/fan-interior.webp", alt: "Inside Ammos" },
+        { image: "/images/ig/fan-swing.webp", alt: "The Ammos swing under the logo wall" },
         { image: "/images/ig/fan-sushi.webp", alt: "Sushi at Ammos" },
         { image: "/images/ig/fan-entrance.webp", alt: "The Ammos entrance on Makenzy Beach" },
         { image: "/images/ig/fan-aperol.webp", alt: "Spritz on the Ammos terrace" },
@@ -359,7 +357,7 @@ export const SECTIONS: SectionDef[] = [
       title: "our\nactivities",
       text: "One address, a whole day of it. Sunbeds and coffee in the morning, long lunches, sunset cocktails at the bar and resident DJs on the terrace until late.",
       polaroids: [
-        { label: "Beach club", icon: "umbrella", image: "/images/ig/beach-club.webp" },
+        { label: "Beach club", icon: "umbrella", image: "/images/ig/beach-towel.webp" },
         { label: "Lunch", icon: "fork-knife", image: "/images/ig/lunch-octopus.webp" },
         { label: "Cocktails", icon: "martini", image: "/images/ig/cocktail-passion.webp" },
         { label: "Live DJ", icon: "vinyl-record", image: "/images/ig/live-dj.webp" },
@@ -499,7 +497,7 @@ export const SECTIONS: SectionDef[] = [
     defaults: {
       kicker: "Since 2005",
       title: "the ammos\nstory",
-      heroImage: "/images/awards-interior.jpg",
+      heroImage: "/images/ig/hero-bar.webp",
       intro:
         "Ammos Beach Bar started out as the first beach bar on a quiet seaside strip called Mackenzie Beach in Larnaca.\n\nIn 2005, the management of Ammos took a major risk by setting up a chilled-out lounge bar on a very under-developed part of Larnaca. As the beach transformed into one of the most popular going-out destinations in Cyprus, Ammos remained the frontrunner of the island's bar scene — with a combination of fine cuisine, top-quality drinks and the very best in entertainment.",
       chapters: [
@@ -507,7 +505,7 @@ export const SECTIONS: SectionDef[] = [
           kicker: "The strip",
           title: "From sleepy seaside to Makenzy Beach",
           text: "What was once a sleepy seaside area for eating fresh fish has evolved, thanks to Ammos, into an exciting entertainment centre with easy access to good food, the tastiest drinks and events to remember.",
-          image: "/images/party.jpg",
+          image: "/images/ig/story-entrance.webp",
         },
         {
           kicker: "The table",
@@ -519,7 +517,7 @@ export const SECTIONS: SectionDef[] = [
           kicker: "The people",
           title: "Regulars who became friends",
           text: "We might be the pioneers of the Makenzy Strip, but we never stand still. From our ever-changing menu to a full makeover, Ammos is always evolving — and the people who come back year after year are the reason why.",
-          image: "/images/bartender.jpg",
+          image: "/images/ig/bar-glasses.webp",
         },
       ],
       quote: "“We might be the pioneers of the Makenzy Strip, but we never stand still for too long.”",

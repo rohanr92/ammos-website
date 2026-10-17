@@ -50,6 +50,13 @@
       "when": 1792070035287,
       "tag": "0006_retroaa_event",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1792250000000,
+      "tag": "0007_new_photos_menu_links",
+      "breakpoints": true
     }
   ]
 }

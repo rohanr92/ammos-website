@@ -11,6 +11,8 @@ import { EventCard } from "@/components/site/EventCard";
 import { HorizontalSlider } from "@/components/site/HorizontalSlider";
 import { HeroVideo } from "@/components/site/HeroVideo";
 import { HeroSlideshow } from "@/components/site/HeroSlideshow";
+import { isExternal } from "@/lib/nav";
+import { LIVE_MENU_PAGE } from "@/lib/menu-import";
 import { DiscoverVideo } from "@/components/site/DiscoverVideo";
 import { HomeMenu } from "@/components/site/HomeMenu";
 import { ContactForm } from "@/components/site/ContactForm";
@@ -71,7 +73,8 @@ export default async function HomePage() {
   const tiles = gallery.length ? GRID_SLOTS.map((slot, i) => ({ slot, img: gallery[i % gallery.length] })) : [];
   // hero background: the admin chooses "Photo" or "Video" (falls back to the photo if no video is set)
   const showHeroVideo = hero.mediaType === "video" && Boolean(hero.video);
-  const heroSlides: { image: string; position?: string }[] = (Array.isArray(hero.slides) ? hero.slides : []).filter((x: { image?: string }) => x?.image);
+  const heroSlides: { image: string; mobileImage?: string; position?: string }[] = (Array.isArray(hero.slides) ? hero.slides : []).filter((x: { image?: string }) => x?.image);
+  const heroSecondaryUrl = String(hero.secondaryUrl || LIVE_MENU_PAGE);
   const showSlideshow = hero.mediaType === "slideshow" && heroSlides.length > 0;
   const menuUrl: string = menuCopy.buttonUrl || "/menu";
   const menuUrlExternal = /^https?:\/\//.test(menuUrl);
@@ -101,9 +104,15 @@ export default async function HomePage() {
                 <a href={settings.reservationUrl} target="_blank" rel="noopener noreferrer" className="btn btn-brand">
                   {hero.primaryLabel}
                 </a>
-                <Link href={hero.secondaryUrl || "/menu"} className="btn btn-ghost-light">
-                  {hero.secondaryLabel}
-                </Link>
+                {isExternal(heroSecondaryUrl) ? (
+                  <a href={heroSecondaryUrl} target="_blank" rel="noopener noreferrer" className="btn btn-ghost-light">
+                    {hero.secondaryLabel}
+                  </a>
+                ) : (
+                  <Link href={heroSecondaryUrl} className="btn btn-ghost-light">
+                    {hero.secondaryLabel}
+                  </Link>
+                )}
               </div>
               {hero.showRating !== false && ratingValue > 0 && (
                 <a href={settings.googleReviewsUrl || "#reviews-title"} className="hero-rating" {...(settings.googleReviewsUrl ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
