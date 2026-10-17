@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { getContent, getSettings } from "@/lib/content";
-import { getGallery, getHomeEvents, getHomeMenu, getReviews, listPosts } from "@/lib/data";
+import { getGallery, getHomeEvents, getReviews, listPosts } from "@/lib/data";
 import { pageMeta } from "@/lib/seo";
 import { initials } from "@/lib/utils";
 import { Img } from "@/components/site/Img";
@@ -14,7 +14,6 @@ import { HeroSlideshow } from "@/components/site/HeroSlideshow";
 import { isExternal } from "@/lib/nav";
 import { LIVE_MENU_PAGE } from "@/lib/menu-import";
 import { DiscoverVideo } from "@/components/site/DiscoverVideo";
-import { HomeMenu } from "@/components/site/HomeMenu";
 import { ContactForm } from "@/components/site/ContactForm";
 import { NewsCarousel } from "@/components/site/NewsCarousel";
 
@@ -64,7 +63,7 @@ export default async function HomePage() {
     getContent("home.gallery"),
     getContent("home.contact"),
   ]);
-  const [events, menuTabs, posts, reviews, gallery] = await Promise.all([getHomeEvents(), getHomeMenu(), listPosts(3), getReviews(), getGallery({ homeOnly: true })]);
+  const [events, posts, reviews, gallery] = await Promise.all([getHomeEvents(), listPosts(3), getReviews(), getGallery({ homeOnly: true })]);
 
   const half = Math.ceil(reviews.length / 2);
   const rowA = [...reviews.slice(0, half), ...reviews.slice(half)];
@@ -253,7 +252,7 @@ export default async function HomePage() {
       </section>
 
       {/* ═════ DISCOVER VIDEO ═════ */}
-      <DiscoverVideo poster={video.poster} video={video.video} youtubeUrl={video.youtubeUrl} label={video.label} />
+      {video.showSection === true && <DiscoverVideo poster={video.poster} video={video.video} youtubeUrl={video.youtubeUrl} label={video.label} />}
 
       {/* ═════ CHEFS ═════ */}
       <section className="chefs" aria-labelledby="chefs-title">
@@ -283,53 +282,69 @@ export default async function HomePage() {
               <Link href="/our-story" className="btn btn-outline">
                 {chefs.primaryLabel}
               </Link>
-              <Link href="/menu" className="btn btn-muted">
+              <a href={LIVE_MENU_PAGE} target="_blank" rel="noopener noreferrer" className="btn btn-muted">
                 See the menu
-              </Link>
+              </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ═════ MENU ═════ */}
-      {menuTabs.length > 0 && (
-        <section id="menu" className="section section-alt" aria-labelledby="menu-title">
-          <div className="container">
-            <HomeMenu
-              tabs={menuTabs.map((t) => ({ ...t, items: t.items.map((i) => ({ id: i.id, name: i.name, description: i.description, price: i.price, image: i.image })) }))}
-              intro={
-                <>
-                  <p className="kicker">{menuCopy.kicker}</p>
-                  <h2 id="menu-title" className="display display-lg" style={{ marginBottom: 24 }}>
-                    <MultiLine text={menuCopy.title} />
-                  </h2>
-                  <p className="lead" style={{ marginBottom: 32, maxWidth: 440 }}>
-                    {menuCopy.text}
-                  </p>
-                </>
-              }
-              after={
-                <>
-                  {menuUrlExternal ? (
-                    <a href={menuUrl} target="_blank" rel="noopener noreferrer" className="btn btn-outline">
-                      {menuCopy.buttonLabel}
-                    </a>
-                  ) : (
-                    <Link href={menuUrl} className="btn btn-outline">
-                      {menuCopy.buttonLabel}
-                    </Link>
-                  )}
-                  {menuCopy.hint && (
-                    <p className="muted" style={{ fontSize: 12, letterSpacing: "0.08em", marginTop: 20 }}>
-                      {menuCopy.hint}
-                    </p>
-                  )}
-                </>
-              }
-            />
+      {/* ═════ MENU (text + premium text-only menu card, no photos) ═════ */}
+      <section id="menu" className="section section-alt" aria-labelledby="menu-title">
+        <div className="container menu-home-grid menu-feature">
+          <div className="menu-home-intro" data-reveal>
+            <p className="kicker">{menuCopy.kicker}</p>
+            <h2 id="menu-title" className="display display-lg" style={{ marginBottom: 24 }}>
+              <MultiLine text={menuCopy.title} />
+            </h2>
+            <p className="lead" style={{ marginBottom: 32, maxWidth: 440 }}>
+              {menuCopy.text}
+            </p>
+            {menuUrlExternal ? (
+              <a href={menuUrl} target="_blank" rel="noopener noreferrer" className="btn btn-outline">
+                {menuCopy.buttonLabel}
+              </a>
+            ) : (
+              <Link href={menuUrl} className="btn btn-outline">
+                {menuCopy.buttonLabel}
+              </Link>
+            )}
+            {menuCopy.hint && (
+              <p className="muted" style={{ fontSize: 12, letterSpacing: "0.08em", marginTop: 20 }}>
+                {menuCopy.hint}
+              </p>
+            )}
           </div>
-        </section>
-      )}
+          <div className="menu-card" data-reveal style={{ transitionDelay: ".15s" }}>
+            <div className="menu-card-inner">
+              {menuCopy.cardKicker && <p className="menu-card-kicker">{menuCopy.cardKicker}</p>}
+              {menuCopy.cardTitle && <h3 className="menu-card-title">{menuCopy.cardTitle}</h3>}
+              <span className="menu-card-orn" aria-hidden="true">
+                <i />◆<i />
+              </span>
+              <ol className="menu-card-list">
+                {(Array.isArray(menuCopy.highlights) ? (menuCopy.highlights as Record<string, string>[]) : [])
+                  .filter((h) => h?.title)
+                  .map((h, i) => (
+                    <li key={`${h.title}-${i}`}>
+                      <span className="mc-num">{String(i + 1).padStart(2, "0")}</span>
+                      <div className="mc-body">
+                        <div className="mc-head">
+                          <span className="mc-title">{h.title}</span>
+                          <span className="mc-dots" aria-hidden="true" />
+                          {h.label && <span className="mc-label">{h.label}</span>}
+                        </div>
+                        {h.text && <p>{h.text}</p>}
+                      </div>
+                    </li>
+                  ))}
+              </ol>
+              {menuCopy.cardNote && <p className="menu-card-note">{menuCopy.cardNote}</p>}
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* ═════ NEWS ═════ */}
       {posts.length > 0 && (

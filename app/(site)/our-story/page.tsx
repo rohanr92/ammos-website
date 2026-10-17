@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { getContent, getSettings } from "@/lib/content";
+import { LIVE_MENU_PAGE } from "@/lib/menu-import";
 import { pageMeta } from "@/lib/seo";
 import { PageHero } from "@/components/site/PageHero";
 import { Img } from "@/components/site/Img";
@@ -87,9 +88,9 @@ export default async function StoryPage() {
                 Book a table
               </a>
               <span style={{ width: 14 }} />
-              <Link href="/menu" className="btn btn-outline">
+              <a href={LIVE_MENU_PAGE} target="_blank" rel="noopener noreferrer" className="btn btn-outline">
                 See the menu
-              </Link>
+              </a>
             </div>
           </div>
         </section>

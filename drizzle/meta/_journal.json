@@ -57,6 +57,13 @@
       "when": 1792250000000,
       "tag": "0007_new_photos_menu_links",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1792270000000,
+      "tag": "0008_events_timeline_menu_card",
+      "breakpoints": true
     }
   ]
 }
