@@ -71,6 +71,13 @@
       "when": 1792271000000,
       "tag": "0009_timeline_2015_swing",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1792272000000,
+      "tag": "0010_menu_card_philosophy",
+      "breakpoints": true
     }
   ]
 }
