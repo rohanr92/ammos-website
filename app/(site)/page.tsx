@@ -292,7 +292,7 @@ export default async function HomePage() {
 
       {/* ═════ MENU (two photos left, text right) ═════ */}
       <section id="menu" className="section section-alt" aria-labelledby="menu-title">
-        <div className="container menu-photos-grid">
+        <div className={`container menu-photos-grid${menuCopy.photoSide === "left" ? "" : " photos-right"}`}>
           <div className="menu-photos" aria-hidden={!menuCopy.image1 && !menuCopy.image2}>
             {menuCopy.image1 && (
               <div className="menu-photo-a" data-reveal style={{ ["--from" as string]: "translate3d(0,70px,0)" }}>

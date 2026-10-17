@@ -413,7 +413,7 @@ export const SECTIONS: SectionDef[] = [
     key: "home.menu",
     title: "Menu block",
     group: "Homepage",
-    description: "Two dish photos on the left, the text and the menu button on the right.",
+    description: "Text with the menu button, and two dish photos beside it (choose which side).",
     fields: [
       t("kicker", "Kicker", KICKER_HELP),
       ta("title", "Title", TITLE_HELP),
@@ -421,7 +421,16 @@ export const SECTIONS: SectionDef[] = [
       t("buttonLabel", "Button text"),
       { name: "buttonUrl", label: "Button link", type: "url", help: "Where the button goes, e.g. the live menu or /menu" },
       t("hint", "Small hint text (optional)"),
-      img("image1", "Large photo (left)", "Portrait 4:5, e.g. 1200 × 1500 px"),
+      {
+        name: "photoSide",
+        label: "Photos on",
+        type: "select",
+        options: [
+          { value: "right", label: "Right side (text on the left)" },
+          { value: "left", label: "Left side (text on the right)" },
+        ],
+      },
+      img("image1", "Large photo", "Portrait 4:5, e.g. 1200 × 1500 px"),
       img("image2", "Small photo (overlapping)", "Portrait 4:5, e.g. 1200 × 1500 px"),
     ],
     defaults: {
@@ -431,6 +440,7 @@ export const SECTIONS: SectionDef[] = [
       buttonLabel: "Find our menu",
       buttonUrl: "https://ammos-beach-bar.nina.cy/?step=menu",
       hint: "",
+      photoSide: "right",
       image1: "/images/ig/menu-steak.webp",
       image2: "/images/ig/menu-fish.webp",
     },

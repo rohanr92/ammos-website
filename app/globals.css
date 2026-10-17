@@ -1032,3 +1032,12 @@ input[type="date"].input, input[type="time"].input { color-scheme: dark; }
   .menu-photo-a { width: 66%; }
   .menu-photo-b { width: 50%; }
 }
+/* menu block: photos on the right (default) */
+@media (min-width: 901px) {
+  .menu-photos-grid.photos-right { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); }
+  .menu-photos-grid.photos-right .menu-photos { order: 2; }
+  .menu-photos-grid.photos-right .menu-photos-text { order: 1; }
+}
+@media (max-width: 900px) {
+  .menu-photos-grid.photos-right .menu-photos { order: 2; }
+}
