@@ -1,0 +1,2 @@
+-- Update 19: timeline 2015 photo = the Ammos swing under the logo
+UPDATE "site_content" SET "data" = jsonb_set("data", '{timeline}', (SELECT jsonb_agg(CASE WHEN e->>'year' = '2015' THEN e || '{"image": "/images/ig/timeline-2015-swing.webp"}'::jsonb ELSE e END ORDER BY o) FROM jsonb_array_elements("data"->'timeline') WITH ORDINALITY AS t(e, o))) WHERE "key" = 'home.story' AND jsonb_typeof("data"->'timeline') = 'array' AND jsonb_array_length("data"->'timeline') > 0;

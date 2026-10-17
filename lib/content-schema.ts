@@ -321,7 +321,7 @@ export const SECTIONS: SectionDef[] = [
       timeline: [
         { year: "2005", title: "First on the strip", text: "Ammos opens its doors on Makenzy Beach, before there was a strip to speak of.", image: "/images/ig/fan-entrance.webp" },
         { year: "2011", title: "The kitchen grows", text: "A full restaurant menu joins the bar. Sunday brunch becomes a Larnaca ritual.", image: "/images/ig/timeline-2011-sushi.webp" },
-        { year: "2015", title: "A Larnaca favourite", text: "Word spreads along the coast, and the regulars keep coming back.", image: "/images/ig/story-2015-friends.webp" },
+        { year: "2015", title: "A Larnaca favourite", text: "Word spreads along the coast, and the regulars keep coming back.", image: "/images/ig/timeline-2015-swing.webp" },
         { year: "2026", title: "The full makeover", text: "New look, same beach. Still evolving, still ahead of the trends.", image: "/images/ig/story-2026-terrace.webp" },
       ],
       fan: [
